@@ -1,0 +1,18 @@
+body {
+    background-color: #F9F9F9;
+    width: 300px;
+    height: 250px;
+    z-index: 99999;
+    padding-top: 65px;
+}
+
+#login {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%
+}
+
+p {
+    text-align: center;
+}

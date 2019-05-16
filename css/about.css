@@ -1,0 +1,28 @@
+body {
+    background-color: white;
+}
+
+#main {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 1%;
+}
+
+.navbar {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.btn-group-sm .btn.btn-fab,
+.btn.btn-fab.btn-sm,
+.btn-group-sm > .btn.btn-fab,
+.btn.btn-fab.btn-fab-mini,
+.btn-group-sm .btn.btn-just-icon,
+.btn.btn-just-icon.btn-sm,
+.btn-group-sm > .btn.btn-just-icon,
+.btn.btn-just-icon.btn-fab-mini {
+    height: 41px;
+    width: 41px;
+}
