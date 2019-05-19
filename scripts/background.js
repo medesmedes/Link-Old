@@ -42,7 +42,6 @@ function pushNewLink(url) {
         'currentWindow': true
     }, function (tabs) {
         tabUrl = tabs[0].url;
-        console.log(tabUrl);
         var d = new Date();
         var n = d.getTime();
         linkRef.push({
@@ -67,19 +66,14 @@ var contextMenuItem = {
 chrome.contextMenus.onClicked.addListener((clickData, tab) => {
 
     if (clickData.menuItemId === "ExtensionName" && clickData.selectionText) {
-        console.log("Text");
         chrome.tabs.executeScript(tab.ib, {
             file: 'scripts/inject.js'
         }, handleText);
         return;
     } else if (clickData.srcUrl !== undefined) {
-        console.log("Image");
-        console.log(clickData.srcUrl);
         pushNewLink(clickData.srcUrl);
         return;
     } else if (clickData.linkUrl !== undefined) {
-        console.log("Link");
-        console.log(clickData.linkUrl);
         pushNewLink(clickData.linkUrl);
         return;
     }
@@ -87,6 +81,5 @@ chrome.contextMenus.onClicked.addListener((clickData, tab) => {
 
 function handleText(resultsArray) {
     var textParam = resultsArray[0];
-    console.log(textParam);
     pushNewLink(textParam);
 }

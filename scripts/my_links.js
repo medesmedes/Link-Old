@@ -36,7 +36,6 @@ function initApp() {
                     microlink('.link-previews', {
                         size: 'large'
                     });
-                    colorImageBackground();
                     reorderFavorites();
                 } else {
                     console.log("No data in Firebase.");
@@ -172,19 +171,12 @@ function checkURL(url) {
         var textElement = document.createElement("div");
         var parsedString = $.parseHTML(url);
         for (var i = 0; i < parsedString.length; i++) {
-            console.log(parsedString[i]);
             textElement.appendChild(parsedString[i]);
         }
         contentDiv.appendChild(textElement);
         return (contentDiv);
     }
 }
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    microlink('.link-previews', {
-        size: 'large'
-    })
-})
 
 function deleteBox(id) {
     var subRef = emailRef.child(uid);
@@ -232,23 +224,22 @@ function removeElement(elementId) {
 
 function colorImageBackground() {
     var imageList = document.getElementsByClassName("colorthief");
-    setTimeout(
-        function () {
-            for (var i = 0; i < imageList.length; i++) {
-                var item = imageList[i];
-                if (item.src.includes(".png")) {
-                    //#ABA5B0 but in RGB
-                    item.parentElement.parentElement.style.backgroundColor = "rgba(" + 171 + "," + 165 + "," + 176 + "," + 0.17 + ")";
-                } else {
-                    var colorThief = new ColorThief();
-                    var r = colorThief.getColor(item)[0];
-                    var g = colorThief.getColor(item)[1];
-                    var b = colorThief.getColor(item)[2];
-                    item.parentElement.parentElement.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
-                }
-            }
-        }, 1500);
+
+    for (var i = 0; i < imageList.length; i++) {
+        var item = imageList[i];
+        if (item.src.includes(".png")) {
+            //#ABA5B0 but in RGB
+            item.parentElement.parentElement.style.backgroundColor = "rgba(" + 171 + "," + 165 + "," + 176 + "," + 0.17 + ")";
+        } else {
+            var colorThief = new ColorThief();
+            var r = colorThief.getColor(item)[0];
+            var g = colorThief.getColor(item)[1];
+            var b = colorThief.getColor(item)[2];
+            item.parentElement.parentElement.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+        }
+    }
 }
+
 
 function reorderFavorites() {
     var genElem = document.getElementById("generated_elements");
@@ -283,3 +274,10 @@ function reorderFavorites() {
 $(document).ready(function () {
     initApp();
 });
+
+var checkExist = setInterval(function () {
+    if ($('.image').length) {
+        colorImageBackground();
+        clearInterval(checkExist);
+    }
+}, 100);
