@@ -147,10 +147,8 @@ function checkURL(url) {
         return (contentDiv);
     } else if (url.match(vidRegex) && url.includes("playlist") === false) {
         contentDiv.setAttribute("class", "content youtube");
-        if (url.includes("watch")) {
-            url = url.replace("watch", "embed/");
-            url = url.replace("?v=", "");
-        }
+        let youtube_id = YouTubeGetID(url);
+        url = 'http://www.youtube.com/embed/' + youtube_id;
         var videoElement = document.createElement("iframe");
         videoElement.setAttribute("src", url);
         contentDiv.appendChild(videoElement);
@@ -269,6 +267,11 @@ function reorderFavorites() {
             genElem.prepend(lCard);
         }
     }
+}
+
+function YouTubeGetID(url) {
+    url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+    return (url[2] !== undefined) ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
 }
 
 $(document).ready(function () {
