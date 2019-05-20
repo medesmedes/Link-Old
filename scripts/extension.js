@@ -12,33 +12,18 @@ firebase.initializeApp(config);
 
 
 var database = firebase.database();
-var emailRef = database.ref('users');
-var url = 'undefined';
+var linkRef;
+var url;
 
 function initApp() {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-            var email = user.email;
             var uid = user.uid;
-            var subRef = emailRef.child(uid);
-            var linkRef = subRef.child('links');
-            JSON.stringify(user, null, '  ');
+            linkRef = database.ref('users/' + uid + '/links');
             var sendButton = document.getElementById('send-to-db');
             var d = new Date();
             var n = d.getTime();
-            localStorage.setItem("uid", uid);
             document.getElementById('html-field').value = url;
-
-            //Add user to firebase
-            subRef.on('value', function (snapshot) {
-                if (snapshot.val() === null) {
-                    subRef.push({
-                        "email": email,
-                        "id": uid,
-                    });
-                }
-            });
-
             sendButton.onclick = function () {
                 linkRef.push({
                     'link': document.getElementById('html-field').value,

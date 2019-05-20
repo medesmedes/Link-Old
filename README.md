@@ -6,5 +6,6 @@ To load the extension change dummy_manifest.json to manifest.json, add a [client
 ### Future features
 - [ ] Smartphone application
 - [ ] Archiving 
-- [ ] Tagging
 - [ ] Comments
+- [ ] Send to link with comment context menu
+- [ ] Popper for delete

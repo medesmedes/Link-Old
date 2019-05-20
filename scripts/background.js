@@ -10,18 +10,14 @@ var config = {
 };
 firebase.initializeApp(config);
 var database = firebase.database();
-var emailRef = database.ref('users');
 var linkRef;
 var contextMenuCreated = false;
-var tabUrl;
 
 function initApp() {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             var uid = user.uid;
-            var subRef = emailRef.child(uid);
-            linkRef = subRef.child('links');
-
+            linkRef = database.ref('users/' + uid + '/links');
             if (!contextMenuCreated) {
                 chrome.contextMenus.create(contextMenuItem);
                 contextMenuCreated = true;
@@ -41,7 +37,7 @@ function pushNewLink(url) {
         'active': true,
         'currentWindow': true
     }, function (tabs) {
-        tabUrl = tabs[0].url;
+        var tabUrl = tabs[0].url;
         var d = new Date();
         var n = d.getTime();
         linkRef.push({
@@ -64,7 +60,6 @@ var contextMenuItem = {
 };
 
 chrome.contextMenus.onClicked.addListener((clickData, tab) => {
-
     if (clickData.menuItemId === "ExtensionName" && clickData.selectionText) {
         chrome.tabs.executeScript(tab.ib, {
             file: 'scripts/inject.js'

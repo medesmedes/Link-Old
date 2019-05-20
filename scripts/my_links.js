@@ -1,5 +1,6 @@
 /* global firebase, console, document, microlink, confirm, event, ColorThief. $ */
 /* eslint-disable no-console */
+
 var config = {
     apiKey: "AIzaSyD5pJB-b1OovQpg8vtcQ6t3tAHR8iHrQBA",
     authDomain: "link-230713.firebaseapp.com",
@@ -11,15 +12,14 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-var emailRef = database.ref("users");
+var linkRef;
 var uid;
 
 function initApp() {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             uid = user.uid;
-            var subRef = emailRef.child(uid);
-            var linkRef = subRef.child("links");
+            linkRef = database.ref('users/' + uid + '/links');
             linkRef.on("value", function (snapshot) {
                 var link_list = snapshot.val();
                 if (link_list !== null) {
@@ -33,10 +33,12 @@ function initApp() {
                         var link_time = Object.values(link_data)[3];
                         makeBox(link_time, link_url, link_fav, link_source, link_id);
                     }
+                    checkExist = setInterval(waitForImage, 100);
                     microlink('.link-previews', {
                         size: 'large'
                     });
                     reorderFavorites();
+
                 } else {
                     console.log("No data in Firebase.");
                 }
@@ -65,7 +67,15 @@ function makeBox(time, url, favorite, source, id) {
     var timeTextSpan = document.createElement("span");
     timeTextSpan.setAttribute("class", "d-inline-block float-left");
     var timeTextParagraph = document.createElement("p");
-    timeTextParagraph.innerHTML = date.toLocaleString('it-IT');
+    var timeOptions = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit"
+    };
+    timeTextParagraph.innerHTML = date.toLocaleString('en-US', timeOptions);
     var deleteSpan = document.createElement("span");
     deleteSpan.setAttribute("class", "d-inline-block float-right");
     var deleteIcon = document.createElement("i");
@@ -177,8 +187,6 @@ function checkURL(url) {
 }
 
 function deleteBox(id) {
-    var subRef = emailRef.child(uid);
-    var linkRef = subRef.child("links");
     var idRef = linkRef.child(id);
     idRef.on("value", function (snapshot) {
         snapshot.ref.remove();
@@ -187,8 +195,6 @@ function deleteBox(id) {
 }
 
 function favoriteBox(id) {
-    var subRef = emailRef.child(uid);
-    var linkRef = subRef.child("links");
     var idRef = linkRef.child(id);
     var favBool;
     idRef.on("value", function (snapshot) {
@@ -278,9 +284,11 @@ $(document).ready(function () {
     initApp();
 });
 
-var checkExist = setInterval(function () {
+var checkExist = setInterval(waitForImage, 100);
+
+function waitForImage() {
     if ($('.image').length) {
         colorImageBackground();
         clearInterval(checkExist);
     }
-}, 100);
+}
