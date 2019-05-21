@@ -56,7 +56,7 @@ window.onload = function () {
 var contextMenuItem = {
     "id": "ExtensionName",
     "title": "Send to Link",
-    "contexts": ["selection", "image", "link"]
+    "contexts": ["selection", "image", "link", "page"]
 };
 
 chrome.contextMenus.onClicked.addListener((clickData, tab) => {
@@ -70,6 +70,9 @@ chrome.contextMenus.onClicked.addListener((clickData, tab) => {
         return;
     } else if (clickData.linkUrl !== undefined) {
         pushNewLink(clickData.linkUrl);
+        return;
+    }else if(clickData.pageUrl !== undefined){
+        pushNewLink(clickData.pageUrl);
         return;
     }
 });
