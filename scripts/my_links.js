@@ -228,18 +228,23 @@ function removeElement(elementId) {
 
 function colorImageBackground() {
     var imageList = document.getElementsByClassName("colorthief");
-
     for (var i = 0; i < imageList.length; i++) {
         var item = imageList[i];
+
         if (item.src.includes(".png")) {
             //#ABA5B0 but in RGB
             item.parentElement.parentElement.style.backgroundColor = "rgba(" + 171 + "," + 165 + "," + 176 + "," + 0.17 + ")";
         } else {
-            var colorThief = new ColorThief();
-            var r = colorThief.getColor(item)[0];
-            var g = colorThief.getColor(item)[1];
-            var b = colorThief.getColor(item)[2];
-            item.parentElement.parentElement.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+            try {
+                var colorThief = new ColorThief();
+                var r = colorThief.getColor(item)[0];
+                var g = colorThief.getColor(item)[1];
+                var b = colorThief.getColor(item)[2];
+                item.parentElement.parentElement.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+            } catch (err) {
+                //console.log("Attempted to catch image background, before any images loaded.");
+            }
+
         }
     }
 }
@@ -287,8 +292,8 @@ $(document).ready(function () {
 var checkExist = setInterval(waitForImage, 100);
 
 function waitForImage() {
-    if ($('.image').length) {
+    for (i = 0; i < $('.image').length; i++) {
         colorImageBackground();
-        clearInterval(checkExist);
     }
+    clearInterval(checkExist);
 }

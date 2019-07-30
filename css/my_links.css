@@ -30,6 +30,7 @@ a i {
     display: flex;
     flex-wrap: wrap;
     text-align: center;
+    padding-left: 25px;
 }
 
 .content {

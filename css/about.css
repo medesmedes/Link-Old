@@ -15,6 +15,11 @@ body {
     border-radius: 0;
 }
 
+.fab,
+.far {
+    line-height: 0px;
+}
+
 .btn-group-sm .btn.btn-fab,
 .btn.btn-fab.btn-sm,
 .btn-group-sm > .btn.btn-fab,

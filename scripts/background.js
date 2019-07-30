@@ -25,7 +25,7 @@ function initApp() {
 
         } else {
             if (contextMenuCreated) {
-                chrome.contextMenus.remove("ExtensionName");
+                chrome.contextMenus.remove("Link-Extension");
                 contextMenuCreated = false;
             }
         }
@@ -54,7 +54,7 @@ window.onload = function () {
 };
 
 var contextMenuItem = {
-    "id": "ExtensionName",
+    "id": "Link-Extension",
     "title": "Send to Link",
     "contexts": ["selection", "image", "link", "page"]
 };
@@ -71,7 +71,7 @@ chrome.contextMenus.onClicked.addListener((clickData, tab) => {
     } else if (clickData.linkUrl !== undefined) {
         pushNewLink(clickData.linkUrl);
         return;
-    }else if(clickData.pageUrl !== undefined){
+    } else if (clickData.pageUrl !== undefined) {
         pushNewLink(clickData.pageUrl);
         return;
     }
