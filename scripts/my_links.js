@@ -135,15 +135,7 @@ function checkURL(url) {
     var contentDiv = document.createElement("div");
     var base64Regex = new RegExp(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
     var vidRegex = new RegExp("^(https?://)?(www.youtube.com|youtu.?be)/.+$");
-    var linkRegex = new RegExp(
-        "^(https?:\\/\\/)?" + // protocol
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-        "(\\#[-a-z\\d_]*)?$",
-        "i"
-    );
+    var linkRegex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
     if (url.match(/\.(jpeg|jpg|gif|png)$/) || url.match(base64Regex)) {
         contentDiv.setAttribute("class", "content image");
         var imageLinkElement = document.createElement("a");
